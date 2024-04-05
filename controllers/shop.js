@@ -16,29 +16,32 @@ exports.getProducts = (req, res, next) => {
 exports.getProduct = (req, res, next) => {
   const prodId = req.params.productId;
   //console.log(`prodId: ${prodId}`);
-  Product.findById(prodId).then(([product]) => {
-    console.log('product detail:\n', product);
-    res.render("shop/product-detail", {
-      product: product[0],
-      pageTitle: product.title,
-      path: `/products/${product.id}`,
-    });
-  }).catch(err => console.log(err));
+  Product.findById(prodId)
+    .then(([product]) => {
+      console.log("product detail:\n", product);
+      res.render("shop/product-detail", {
+        product: product[0],
+        pageTitle: product.title,
+        path: `/products/${product.id}`,
+      });
+    })
+    .catch((err) => console.log(err));
 
-  
   //res.redirect("/");
 };
 
 exports.getIndex = (req, res, next) => {
-  Product.fetchAll()
-    .then(([rows, fieldData]) => {
+  Product.findAll()
+    .then((products) => {
       res.render("shop/index", {
-        prods: rows,
+        prods: products,
         pageTitle: "Shop",
         path: "/",
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 exports.getCart = (req, res, next) => {
