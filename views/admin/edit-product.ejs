@@ -22,7 +22,7 @@
       </div>
       <div class="form-control">
         <label for="description">Description</label>
-        <textarea name="description" id="description" rows="5"><%= (editing ? product.description : '').trim() %></textarea>
+        <textarea name="description" id="description" rows="5"><%= (editing && product && product.description ? product.description : '').trim() %></textarea>
       </div>
 
       <% if (editing) {%>
