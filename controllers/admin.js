@@ -18,6 +18,7 @@ exports.getEditProduct = (req, res, next) => {
   console.log(`edit product id: ${prodId}`);
 
   req.user
+    //Product.findByPk(prodId)
     .getProducts({ where: { id: prodId } })
     .then((products) => {
       const product = products[0];
