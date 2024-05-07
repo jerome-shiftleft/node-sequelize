@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.3.0, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: node_sql
+-- Host: 127.0.0.1    Database: node_sequelize
 -- ------------------------------------------------------
 -- Server version	8.3.0
 
@@ -23,14 +23,18 @@ DROP TABLE IF EXISTS `products`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `products` (
-  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
-  `create_time` datetime DEFAULT NULL COMMENT 'Create Time',
-  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `price` double DEFAULT NULL,
-  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
-  `imageUrl` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'https://www.publicdomainpictures.net/pictures/10000/velka/1-1210009435EGmE.jpg',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `id` int NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `price` decimal(10,2) DEFAULT '0.00',
+  `imageUrl` varchar(255) DEFAULT 'https://www.publicdomainpictures.net/pictures/10000/velka/1-1210009435EGmE.jpg',
+  `description` text,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  `userId` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `userId` (`userId`),
+  CONSTRAINT `products_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,11 +42,36 @@ CREATE TABLE `products` (
 --
 
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'2024-03-29 10:28:00','A Book',12,'This is an awesome book','https://www.publicdomainpictures.net/pictures/10000/velka/1-1210009435EGmE.jpg'),(2,'2024-03-29 10:28:35','2nd book',45,'my second book','https://www.publicdomainpictures.net/pictures/10000/velka/1-1210009435EGmE.jpg'),(3,NULL,'wahaha',99,'wohooo','https://www.publicdomainpictures.net/pictures/10000/velka/1-1210009435EGmE.jpg');
+INSERT INTO `products` VALUES (1,'My Book',123.00,'https://www.publicdomainpictures.net/pictures/10000/velka/1-1210009435EGmE.jpg','testffff','2024-04-21 07:30:37','2024-04-21 07:58:43',1),(2,'Book2',122.00,'https://www.publicdomainpictures.net/pictures/10000/velka/1-1210009435EGmE.jpg','test222','2024-04-21 07:39:30','2024-04-21 07:39:30',1);
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 
 --
--- Dumping routines for database 'node_sql'
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `users` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'Max','test@test.com','2024-04-21 05:58:11','2024-04-21 05:58:11');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+
+--
+-- Dumping routines for database 'node_sequelize'
 --
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -54,4 +83,4 @@ INSERT INTO `products` VALUES (1,'2024-03-29 10:28:00','A Book',12,'This is an a
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-01 23:39:17
+-- Dump completed on 2024-05-08  1:21:31
